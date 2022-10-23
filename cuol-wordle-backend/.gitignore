@@ -1,2 +1,5 @@
 #Python Venv
 venv/
+
+#Postgres Local data
+pgdata_testing/
