@@ -1,5 +1,6 @@
 import './App.css';
 
+//TODO: Adam create a very simple UI for the game and testing the backend 
 function App() {
   return (
     <div className="App">

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cuol_wordle_api.apps.CuolWordleApiConfig'
 ]
 
 MIDDLEWARE = [
