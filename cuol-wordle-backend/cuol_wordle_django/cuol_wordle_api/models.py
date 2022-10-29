@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Word(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     value = models.CharField(max_length=10, null=False)
     is_chosen = models.BooleanField(default=False)
     date_chosen = models.DateTimeField(auto_now_add=True)
@@ -17,17 +17,15 @@ class Word(models.Model):
 # class User(models.Model):
 #    print()
 
-#TODO: Ayesha
-
 
 class UserStats(models.Model):
-    id = models.IntegerField(primary_key=True)
-    games_played = models.IntegerField(max_length=10, null=False)
-    games_won = models.IntegerField(max_length=10, null=False)
+    id = models.AutoField(primary_key=True,)
+    games_played = models.IntegerField(null=False)
+    games_won = models.IntegerField(null=False)
 
 
 class GuessDistribution(models.Model):
-    id = models.IntegerField(primary_key=True)
-    times_stamp = models.DateTimeField(auto_now_add=True)
-    games_played = models.IntegerField(max_length=10, null=False)
-    games_won = models.IntegerField(max_length=10, null=False)
+    id = models.AutoField(primary_key=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    games_played = models.IntegerField(null=False)
+    games_won = models.IntegerField(null=False)

@@ -1,8 +1,5 @@
 from rest_framework import serializers
-from .models import Word
-from .models import UserStats
-from .models import GuessDistribution
-
+from .models import Word, UserStats, GuessDistribution
 
 class WordSerializer(serializers.ModelSerializer):
     class Meta:

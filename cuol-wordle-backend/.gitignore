@@ -12,6 +12,7 @@ pgdata_testing/
 __pycache__
 db.sqlite3
 media
+migrations/
 #Distribution / packaging 
 .Python build/ 
 develop-eggs/ 

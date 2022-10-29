@@ -1,14 +1,10 @@
-from msilib.schema import ServiceInstall
 from django.shortcuts import render
-from django.views.generic import ListView
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view, parser_classes, throttle_classes
 from .serializers import WordSerializer, UserStatsSerializer, GuessDistributionSerializer
-from .models import Word
-from .models import UserStats
-from .models import GuessDistribution
+from .models import Word, UserStats, GuessDistribution
 
 
 # Create your views here.
@@ -16,21 +12,18 @@ from .models import GuessDistribution
 # Generic for testing
 
 
-class WordView(ListView):
+class WordView(generics.ListAPIView):
     model = Word
-    #queryset = Word.objects.all()
-    #serializer_class = WordSerializer
-
-#TODO: AYESHA
-# GENERIC VIEWS
+    queryset = Word.objects.all()
+    serializer_class = WordSerializer
 
 
-class UserStatsView(generics.CreateAPIView):
+class UserStatsView(generics.ListAPIView):
     queryset = UserStats.objects.all()
     serializer_class = UserStatsSerializer
 
 
-class GuessDistributionView(generics.CreateAPIView):
+class GuessDistributionView(generics.ListAPIView):
     queryset = GuessDistribution.objects.all()
     serializer_class = GuessDistributionSerializer
 

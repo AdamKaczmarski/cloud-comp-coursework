@@ -1,4 +1,3 @@
-from tabnanny import check
 from django.urls import path
 from .views import check_chosen, WordView
 from .views import UserStatsView
