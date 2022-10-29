@@ -7,32 +7,41 @@ import Row from "react-bootstrap/Row";
 const WordInput = () => {
   const dispatch = useDispatch();
   const chosenLength = useSelector((state) => state.chosenWord.chosenLength);
-  console.log(chosenLength);
+  const guessesDoneLength = useSelector(
+    (state) => state.guesses.guessesDone.length
+  );
+
   const guessHandler = (ev) => {
     if (
       (ev.charCode === 13 || ev.code === "Enter") &&
       ev.target.value.length === chosenLength
     ) {
-      console.log(ev.target.value);
-      dispatch(setGuesses(ev.target.value));
-      ev.target.value = "";
+      if (guessesDoneLength < chosenLength) {
+        dispatch(setGuesses(ev.target.value.toUpperCase()));
+        ev.target.value = "";
+      } else {
+        console.log("LOST");
+      }
     }
   };
   return (
     <Row className="justify-content-md-center">
       <Col md="auto">
-        <Form onSubmit={(ev) => ev.preventDefault()}>
-          <Form.Group className="mb-3" controlId="chooseWord">
-            <Form.Label className="text-muted">
-              Press enter to confirm your guess
-            </Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Guess the word"
-              onKeyPress={guessHandler}
-            />
-          </Form.Group>
-        </Form>
+        {guessesDoneLength < chosenLength ? (
+          <Form onSubmit={(ev) => ev.preventDefault()}>
+            <Form.Group className="mb-3" controlId="chooseWord">
+              <Form.Label className="text-muted">
+                Press enter to confirm your guess
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Guess the word"
+                onKeyPress={guessHandler}
+                disabled={!(guessesDoneLength < chosenLength)}
+              />
+            </Form.Group>
+          </Form>
+        ) : null}
       </Col>
     </Row>
   );

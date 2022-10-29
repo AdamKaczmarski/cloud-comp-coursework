@@ -1,20 +1,19 @@
-import {useState,useEffect} from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import Row from 'react-bootstrap/Row'
-import Guess from './Guess';
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import Guess from "./Guess";
+const GuessesDisplay = () => {
+  const chosenLength = useSelector((state) => state.chosenWord.chosenLength);
+  const [displayGuesses, setDisplayGuesses] = useState([]);
+  //HERE WE ARE GOING TO DISPLAY A LIST OF GUESS CONTAINING LETTERS
+  useEffect(() => {
+    const tmp = [];
+    for (let i = 0; i < chosenLength; ++i) {
+      tmp.push(<Guess length={chosenLength} displayIdx={i} key={i} />);
+    }
+    setDisplayGuesses(tmp);
+  }, [chosenLength]);
 
-const GuessesDisplay=()=>{
-    const guesses = useSelector(state=>state.guesses.guesses);
-    const chosenLength = useSelector((state) => state.chosenWord.chosenLength);
-    console.log(guesses);
-    const CHOSEN_WORD = 'HOUSE';
-    //HERE WE ARE GOING TO DISPLAY A LIST OF GUESS CONTAINING LETTERS
-    
-    return(
-        <>
-        {CHOSEN_WORD.split('').map((el,idx)=><Guess length={CHOSEN_WORD.length} empty={true} key={idx}/>)}
-        </>
-    );
-}
+  return <>{displayGuesses}</>;
+};
 
 export default GuessesDisplay;
