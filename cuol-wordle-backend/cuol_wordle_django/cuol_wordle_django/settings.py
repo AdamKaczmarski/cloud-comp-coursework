@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cuol_wordle_api.apps.CuolWordleApiConfig'
+    'cuol_wordle_api.apps.CuolWordleApiConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ DATABASES = {
         'USER': 'backend',
         'PASSWORD': 'test',
         'HOST': 'localhost',
-        'PORT':'5432'
+        'PORT': '5432'
     }
 }
 
