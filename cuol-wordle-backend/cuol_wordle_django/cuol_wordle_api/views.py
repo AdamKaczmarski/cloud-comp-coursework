@@ -32,7 +32,7 @@ def get_value(request):
     return request.data['value']
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @parser_classes([JSONParser])
 # @throttle_classes([OncePerDayUserThrottle])
 def check_chosen(request):
