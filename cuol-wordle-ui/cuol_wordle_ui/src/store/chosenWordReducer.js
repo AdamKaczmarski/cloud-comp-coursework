@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+//We get the length of chosen word from the server. We check with the server whether the guess is correct in WordInput.
 export const fetchChosenWordInfo = createAsyncThunk("fetchChosenWordInfo", async () => {
   const response = await axios.get(
     "localhost:8000/get_chosen_info"
@@ -9,7 +10,7 @@ export const fetchChosenWordInfo = createAsyncThunk("fetchChosenWordInfo", async
 });
 
 const initialState = {
-    chosenLength:5 //5 for testing, the length should be set tp 0 by default and update by the API call above
+    chosenLength:5, //5 for testing, the length should be set tp 0 by default and update by the API call above
 };
 
 export const chosenWordSlice = createSlice({
