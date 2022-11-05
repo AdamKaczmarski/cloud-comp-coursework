@@ -6,13 +6,13 @@ from rest_framework.decorators import api_view, parser_classes, throttle_classes
 from .serializers import WordSerializer, UserStatsSerializer, GuessDistributionSerializer
 from .models import Word, UserStats, GuessDistribution
 
-
-# Create your views here.
+from rest_framework.permissions import IsAuthenticated
 
 # Generic for testing
 
 
 class WordView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
     model = Word
     queryset = Word.objects.all()
     serializer_class = WordSerializer
