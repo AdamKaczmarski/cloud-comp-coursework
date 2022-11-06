@@ -1,17 +1,22 @@
+services:
+  web: 
+    build: ./cuol_wordle_django
+    command: python manage.py runserver 0.0.0.0:8000
+    ports: 
+      - '8000:8000'
+    environment:
+      DATABASE_URL: db
 #Using containerized version of Postgres for local development for now.
 #We'll using RDS Postgres later
 #To start the container run
 #docker-compose -f postgres-compose.yml up -d
 #To access the Postgres using the terminal run
 #docker container ^Cec -it cuol-wordle-backend_db_1 psql -U backend -d cuoldle
-version: '3.1'
-
-services:
 
   db:
     image: postgres:14
     restart: always
-      #volumes: 
+      #volumes:
       #- ./pgdata_testing:/var/lib/postgresql/data
     ports:
       - '5432:5432'
