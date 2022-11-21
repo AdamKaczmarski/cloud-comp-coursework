@@ -1,5 +1,5 @@
 from django.db import models
-
+from auth_wordle.models import User
 class Word(models.Model):
     id = models.AutoField(primary_key=True)
     value = models.CharField(max_length=10, null=False)
@@ -18,7 +18,7 @@ class UserStats(models.Model):
     id = models.AutoField(primary_key=True,)
     games_played = models.IntegerField(null=False)
     games_won = models.IntegerField(null=False)
-
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class GuessDistribution(models.Model):
     id = models.AutoField(primary_key=True)
