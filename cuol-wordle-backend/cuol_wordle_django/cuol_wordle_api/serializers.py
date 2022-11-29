@@ -17,3 +17,4 @@ class GuessDistributionSerializer(serializers.ModelSerializer):
     class Meta:
         model = GuessDistribution
         fields = '__all__'
+

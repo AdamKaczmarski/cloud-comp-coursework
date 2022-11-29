@@ -25,3 +25,5 @@ class GuessDistribution(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     games_played = models.IntegerField(null=False)
     games_won = models.IntegerField(null=False)
+
+
