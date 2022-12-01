@@ -33,16 +33,21 @@ class GuessDistributionView(generics.ListAPIView):
 def get_value(request):
     return request.data['value']
 
-
-def word_to_dict(winner_word,word,response):
+#This is not returning correct number of words when words are duplicated since dicts has to have unique keys
+#change it to an array of dicts
+#for example the response will be of structure [{},{},{}]
+def word_to_dict(winner_word,word,responseArr):
+    
     for index_l, l in enumerate(list(word)):
+        response={}
         response[l]={'index':index_l,"isCorrectPosition":False,"isInTheWord":False}
         for index_x, x in enumerate(list(winner_word)):
             if x == l:
                 response.get(l)['isInTheWord']=True
                 if index_x == index_l:
                     response.get(l)['isCorrectPosition']=True
-    return response
+        responseArr.append(response)
+    return responseArr
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -68,7 +73,7 @@ def check_chosen(request):
         response={"decision":True}
     else:
         response={"decision":False}
-    response["word"] = word_to_dict(winner_word,word,{})
+    response["word"] = word_to_dict(winner_word,word,[])
     return HttpResponse(json.dumps(response))
     
         
