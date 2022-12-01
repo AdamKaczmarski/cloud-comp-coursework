@@ -33,6 +33,17 @@ class GuessDistributionView(generics.ListAPIView):
 def get_value(request):
     return request.data['value']
 
+
+def word_to_dict(winner_word,word,response):
+    for index_l, l in enumerate(list(word)):
+        response[l]={'index':index_l,"isCorrectPosition":False,"isInTheWord":False}
+        for index_x, x in enumerate(list(winner_word)):
+            if x == l:
+                response.get(l)['isInTheWord']=True
+                if index_x == index_l:
+                    response.get(l)['isCorrectPosition']=True
+    return response
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_length(self):
@@ -43,7 +54,7 @@ def get_length(self):
 @api_view(['POST'])
 @parser_classes([JSONParser])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([OncePerDayUserThrottle])
+#@throttle_classes([OncePerDayUserThrottle])
 def check_chosen(request):
     print(request)
     word = request.data['chosen_word']
@@ -51,20 +62,15 @@ def check_chosen(request):
     remove_digits = str.maketrans('', '', digits)
     word = word.translate(remove_digits).lower().strip()
     if len(word) != len(winner_word):
-        return False
+        return HttpResponse(json.dumps({"decision":False}))
+    response={}
     if word==winner_word:
-        return True
+        response={"decision":True}
     else:
-        response={}
-        for index_l, l in enumerate(list(word)):
-            response[l]={'index':index_l,"isCorrectPosition":False,"isInTheWord":False}
-            for index_x, x in enumerate(list(winner_word)):
-                if x == l:
-                    response.get(l)['isInTheWord']=True
-                    if index_x == index_l:
-                        response.get(l)['isCorrectPosition']=True
-        return HttpResponse(json.dumps(response))
-
+        response={"decision":False}
+    response["word"] = word_to_dict(winner_word,word,{})
+    return HttpResponse(json.dumps(response))
+    
         
 def stats(request):
     pass

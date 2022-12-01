@@ -1,28 +1,21 @@
 import { useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setGuesses } from "../store/guessesReducer";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 const dummyResponse = {
-  "A":{isInTheWord:false,
-    isCorrectPoisition:false,
-    index:1
-  },"I":{isInTheWord:true,
-    isCorrectPoisition:false,
-    index:2
-  },"H":{isInTheWord:false,
-    isCorrectPoisition:false,
-    index:4
-  },"T":{isInTheWord:true,
-    isCorrectPoisition:true,
-    index:3
-  },"F":{
-    isInTheWord:true,
-    isCorrectPoisition:false,
-    index:0
-  }
-}
+  A: { isInTheWord: false, isCorrectPoisition: false, index: 1 },
+  I: { isInTheWord: true, isCorrectPoisition: false, index: 2 },
+  H: { isInTheWord: false, isCorrectPoisition: false, index: 4 },
+  T: { isInTheWord: true, isCorrectPoisition: true, index: 3 },
+  F: {
+    isInTheWord: true,
+    isCorrectPoisition: false,
+    index: 0,
+  },
+};
 const WordInput = () => {
   const dispatch = useDispatch();
   const [isWin, setIsWin] = useState(false);
@@ -30,8 +23,7 @@ const WordInput = () => {
   const guessesDoneLength = useSelector(
     (state) => state.guesses.guessesDone.length
   );
-    const CHOSENWORDTMP="HOUSE"
-  const guessHandler = (ev) => {
+  const guessHandler = async (ev) => {
     if (
       (ev.charCode === 13 || ev.code === "Enter") &&
       ev.target.value.length === chosenLength
@@ -40,15 +32,27 @@ const WordInput = () => {
         //HERE WE CHECK WITH THE SERVER WHETHER THE GUESS IS CORRECT
         // WE SAVE THE RESPONSE FROM THE SERVER IN THE REDUX STORE
         const userGuess = ev.target.value.toUpperCase();
-        /*
-          API CALL TO THE CHECK IF CHOSEN
-        */
-        dispatch(setGuesses(dummyResponse));
-        if (userGuess===CHOSENWORDTMP) {
-          console.log("WIN")
-          setIsWin(true);
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5OTc2NTY5LCJpYXQiOjE2Njk4OTAxNjksImp0aSI6ImE0OGNjZjYzYmJkYTQ0MzU4MjI4ZjU1ZWIyYTk2NTg0IiwidXNlcl9pZCI6MX0.2ZCfMWDZOm5MHHMTuOXKGplb1IX2d5ILzxWxFN-jTUU"
+        try {
+          const response = await axios({
+            method: "POST",
+            url: "http://localhost:8000/cuol_wordle/check_chosen",
+            data: { chosen_word: userGuess },
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          });
+          if (response.data.decision !== null) {
+            dispatch(setGuesses(response.data.word));
+          }
+          
+          if (response.data.decision) {
+            setIsWin(true);
+          }
+          ev.target.value = "";
+        } catch (err) {
+          console.log(err);
         }
-        ev.target.value = "";
       } else {
         console.log("LOST");
       }
@@ -71,7 +75,9 @@ const WordInput = () => {
               />
             </Form.Group>
           </Form>
-        ) : null}
+        ) : (
+          <p>CONGRATS!!</p>
+        )}
       </Col>
     </Row>
   );

@@ -22,7 +22,7 @@ const Letter = (props) => {
   }
   return (
     <Col md={1} className="mx-1 justify-content-center align-center" style={{ border: "1px solid #ccc", borderRadius: "16px", maxWidth:"5vh", maxHeight:"5vh",minHeight:"5vh", backgroundColor:bgColor }}>
-      {props.letter ? <p className="p-1 text-center m-0" style={{backgroundColor:bgColorText}}>{props.letter}</p> : null}
+      {props.letter ? <p className="p-1 text-center m-0" style={{backgroundColor:bgColorText}}>{props.letter.toUpperCase()}</p> : null}
     </Col>
   );
 };

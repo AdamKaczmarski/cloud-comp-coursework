@@ -8,13 +8,13 @@ const Guess = (props) => {
     useEffect(()=>{
         if (guess){
             const tmp =[]
-            const dummyArrayForIndexSort =[]
+            const dummyArrayForIndexSort =[];
             for(let l in guess){
-                const dummyObj = {...guess[l],letter:l}
-                dummyArrayForIndexSort.push([dummyObj,guess[l].index])
+                const key = Object.keys(guess[l])[0];
+                const dummyObj = {...guess[l][key],letter:key}
+                dummyArrayForIndexSort.push([dummyObj,guess[l][key].index])
             }
             dummyArrayForIndexSort.sort((a,b)=>a[1]-b[1])
-
             for(let i =0;i<dummyArrayForIndexSort.length;++i){
                 const letter = dummyArrayForIndexSort[i][0]
                 tmp.push(<Letter letter={letter.letter} key={letter.letter+letter.index} isCorrectPosition={letter.isCorrectPosition} isInTheWord={letter.isInTheWord}/>)
