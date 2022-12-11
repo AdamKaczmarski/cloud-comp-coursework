@@ -9,16 +9,14 @@ class Word(models.Model):
     def __str__(self):
         return self.value
 
-# Let's not think of users now as we may use AWS Identity solution
-# class User(models.Model):
-#    print()
-
 
 class UserStats(models.Model):
-    id = models.AutoField(primary_key=True,)
+    id = models.AutoField(primary_key=True)
     games_played = models.IntegerField(null=False)
     games_won = models.IntegerField(null=False)
+    total_guesses = models.IntegerField(default=0)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    last_played_date = models.DateField(auto_now=True)
 
 class GuessDistribution(models.Model):
     id = models.AutoField(primary_key=True)

@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-
+    id = models.AutoField(primary_key=True,)
     username = None
     email = models.EmailField(max_length=100, unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)

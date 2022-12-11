@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'cuoldle',
         'USER': 'backend',
         'PASSWORD': 'test',
-        'HOST': os.environ.get('DATABASE_URL'),
+        'HOST': 'localhost',#os.environ.get('DATABASE_URL'),
         'PORT': '5432'
     }
 }

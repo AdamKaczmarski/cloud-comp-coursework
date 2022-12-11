@@ -10,7 +10,7 @@ class WordSerializer(serializers.ModelSerializer):
 class UserStatsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserStats
-        fields = '__all__'
+        fields = ["games_played","games_won","total_guesses"]
 
 
 class GuessDistributionSerializer(serializers.ModelSerializer):
