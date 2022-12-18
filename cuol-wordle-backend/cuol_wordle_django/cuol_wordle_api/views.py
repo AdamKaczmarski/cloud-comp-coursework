@@ -8,6 +8,7 @@ from auth_wordle.models import User
 from string import digits
 import json
 from datetime import datetime
+from django.db.models import Sum, Count
 
 from rest_framework.permissions import IsAuthenticated
 
@@ -108,4 +109,17 @@ def user_stats(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def global_stats(request):
-    return HttpResponse(1)
+    today = datetime.now().date()
+    print(f'today is {today}')
+    #total games plaead
+    total_games = UserStats.objects.aggregate(Sum('games_played')).get('games_played__sum')   
+    #total games won 
+    total_won = UserStats.objects.aggregate(Sum('games_won')).get('games_won__sum')
+    #played today
+    today_played = UserStats.objects.filter(last_played_date=today).aggregate(Count('id')).get('id__count')
+    #won today 
+    today_won= UserStats.objects.filter(last_played_date=today).aggregate(Sum('games_won')).get('games_won__sum')
+    if today_won is None:
+        today_won=0
+    response = {"total_games":total_games,'total_won':total_won,'today_played':today_played,'today_won':today_won}
+    return HttpResponse(json.dumps(response))
