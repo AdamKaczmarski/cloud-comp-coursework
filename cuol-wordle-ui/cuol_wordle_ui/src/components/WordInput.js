@@ -18,6 +18,7 @@ const dummyResponse = {
 };
 const WordInput = () => {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   const [isWin, setIsWin] = useState(false);
   const chosenLength = useSelector((state) => state.chosenWord.chosenLength);
   const guessesDoneLength = useSelector(
@@ -32,22 +33,23 @@ const WordInput = () => {
         //HERE WE CHECK WITH THE SERVER WHETHER THE GUESS IS CORRECT
         // WE SAVE THE RESPONSE FROM THE SERVER IN THE REDUX STORE
         const userGuess = ev.target.value.toUpperCase();
-        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5OTc2NTY5LCJpYXQiOjE2Njk4OTAxNjksImp0aSI6ImE0OGNjZjYzYmJkYTQ0MzU4MjI4ZjU1ZWIyYTk2NTg0IiwidXNlcl9pZCI6MX0.2ZCfMWDZOm5MHHMTuOXKGplb1IX2d5ILzxWxFN-jTUU"
         try {
           const response = await axios({
             method: "POST",
             url: "http://localhost:8000/cuol_wordle/check_chosen",
             data: { chosen_word: userGuess },
             headers: {
-              Authorization: "Bearer " + token,
+              Authorization: `Bearer ${token}`,
             },
           });
           if (response.data.decision !== null) {
             dispatch(setGuesses(response.data.word));
           }
-          
+
           if (response.data.decision) {
+            document.cookie = `cuolWordleWin=${new Date().getTime()}`
             setIsWin(true);
+
           }
           ev.target.value = "";
         } catch (err) {
