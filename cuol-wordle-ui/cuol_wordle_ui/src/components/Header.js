@@ -6,11 +6,17 @@ import Stats from "./Stats";
 import Navbar from 'react-bootstrap/Navbar';
 import {useState} from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import {setToken} from "../store/authReducer";
 const Header = () => {
+    const dispatch = useDispatch();
   const [showLogin, setShowLogin] = useState(false);
   const showLoginHandler = ()=>{
     setShowLogin(!showLogin);
   }
+    const logoutHandler=()=>{
+        dispatch(setToken(""))
+    }
   const [showStats, setShowStats] = useState(false);
   const showStatsHandler = ()=>{
     setShowStats(!showStats);
@@ -24,7 +30,7 @@ const Header = () => {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Nav.Link className="mx-3" onClick={showStatsHandler}>Stats</Nav.Link>
-          <Nav.Link className="mx-3" onClick={showLoginHandler}>{token?"Logout":"Login"}</Nav.Link>
+          <Nav.Link className="mx-3" onClick={token?logoutHandler:showLoginHandler}>{token?"Logout":"Login"}</Nav.Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>
