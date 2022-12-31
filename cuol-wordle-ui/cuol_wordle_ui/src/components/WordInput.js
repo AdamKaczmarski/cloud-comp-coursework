@@ -1,21 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setGuesses } from "../store/guessesReducer";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-const dummyResponse = {
-  A: { isInTheWord: false, isCorrectPoisition: false, index: 1 },
-  I: { isInTheWord: true, isCorrectPoisition: false, index: 2 },
-  H: { isInTheWord: false, isCorrectPoisition: false, index: 4 },
-  T: { isInTheWord: true, isCorrectPoisition: true, index: 3 },
-  F: {
-    isInTheWord: true,
-    isCorrectPoisition: false,
-    index: 0,
-  },
-};
+
 const WordInput = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -24,6 +14,17 @@ const WordInput = () => {
   const guessesDoneLength = useSelector(
     (state) => state.guesses.guessesDone.length
   );
+useEffect(()=>{
+    //I love JS
+    const winDateCookie = document.cookie.split(';').filter(c=>c.split('=')[0]==="cuolWordleWin").shift()
+    if (winDateCookie){
+        const cookieDate = new Date(+winDateCookie.split('=')[1]);
+        const todayDate = new Date()
+        if (cookieDate.setHours(0,0,0,0)===todayDate.setHours(0,0,0,0)){
+            setIsWin(true)
+        }
+    }
+},[])
   const guessHandler = async (ev) => {
     if (
       (ev.charCode === 13 || ev.code === "Enter") &&
@@ -45,7 +46,6 @@ const WordInput = () => {
           if (response.data.decision !== null) {
             dispatch(setGuesses(response.data.word));
           }
-
           if (response.data.decision) {
             document.cookie = `cuolWordleWin=${new Date().getTime()}`
             setIsWin(true);

@@ -2,14 +2,14 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
-import { useDispatch } from "react-redux";
-import {setToken} from "../store/authReducer";
+import Alert from "react-bootstrap/Modal"
+import { useState } from "react";
 const Register= (props) =>{
-    const dispatch = useDispatch();
-    const registerData = {
+    const[registerData, setRegisterData]= useState({
         email: "",
         password: "",
-    };
+        confirmPassword: ""
+    });
 
     const register= async (ev) => {
         ev.preventDefault();
@@ -28,10 +28,13 @@ const Register= (props) =>{
         props.onHide();
     };
     const emailHandler = (ev) => {
-        registerData.email = ev.target.value;
+        setRegisterData({...registerData,email : ev.target.value});
     };
     const passwordHandler = (ev) => {
-        registerData.password = ev.target.value;
+        setRegisterData({...registerData,password : ev.target.value});
+    };
+    const confirmPasswordHandler = (ev) => {
+        setRegisterData({...registerData,confirmPassword : ev.target.value});
     };
     return (
         <Modal show={props.show} onHide={props.onHide} >
@@ -58,9 +61,20 @@ const Register= (props) =>{
         onChange={passwordHandler}
         />
         </Form.Group>
-        <Button variant="primary" type="submit" onClick={register}>
+        <Form.Group className="mb-3" controlId="formConfirmPassword">
+        <Form.Label>Confirm password</Form.Label>
+        <Form.Control
+        type="password"
+        placeholder="Confirm password"
+        onChange={confirmPasswordHandler}
+        />
+        </Form.Group>
+        {registerData.password !== registerData.confirmPassword?
+            <Alert variant="danger">Passwords are not the same</Alert>:null}
+        <Button variant="primary" type="submit" onClick={register} disabled={registerData.password !== registerData.confirmPassword}>
         Register 
         </Button>
+
         </Form>
         </Modal.Body>
         </Modal>

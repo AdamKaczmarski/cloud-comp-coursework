@@ -53,8 +53,7 @@ def word_to_dict(winner_word,word,responseArr):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_length(self):
-    winner_word="house"
-    return HttpResponse(len(winner_word))
+    return HttpResponse(len(Word.objects.get(is_chosen=True).value))
 
 
 @api_view(['POST'])
@@ -72,7 +71,10 @@ def check_chosen(request):
         userstats.games_played+=1
     userstats.total_guesses+=1
     word = request.data['chosen_word']
-    winner_word="house" #LATER ON it'll Pulled from the db
+
+    winner_word: str = Word.objects.get(is_chosen=True).value
+   # winner_word="house" # LATER ON it'll Pulled from the db
+
     remove_digits = str.maketrans('', '', digits)
     word = word.translate(remove_digits).lower().strip()
     if len(word) != len(winner_word):
@@ -80,7 +82,8 @@ def check_chosen(request):
     response={}
     if word==winner_word:
         response={"decision":True}
-        userstats.games_won+=1
+        if userstats.last_won_date != today:
+            userstats.games_won+=1
     else:
         response={"decision":False}
     response["word"] = word_to_dict(winner_word,word,[])
