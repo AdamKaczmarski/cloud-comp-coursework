@@ -17,7 +17,8 @@ const Register= (props) =>{
         try {
             const response = await axios({
                 method: "POST",
-                url: `${url}/auth/register/`,
+                //url: `${url}/auth/register/`,
+                url: `/auth/register/`,
                 data: registerData,
             });
                 props.handleRegister({msg:response.data.message,status:response.status});

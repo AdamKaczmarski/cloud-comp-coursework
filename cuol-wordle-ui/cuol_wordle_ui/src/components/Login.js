@@ -24,7 +24,8 @@ const Login = (props) =>{
     try {
       const response = await axios({
         method: "POST",
-        url: `${url}/auth/login/`,
+        //url: `${url}/auth/login/`,
+        url: `/auth/login/`,
         data: loginData,
       });
       if (response.status === 200) {

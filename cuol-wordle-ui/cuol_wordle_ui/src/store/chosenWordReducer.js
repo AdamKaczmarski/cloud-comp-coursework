@@ -5,9 +5,10 @@ import axios from "axios";
 export const fetchChosenWordInfo = createAsyncThunk(
   "fetchChosenWordInfo",
   async (token) => {
+        const url = process.env.REACT_APP_SERVER_URL;
     try {
       const response = await axios.get(
-        "http://localhost:8000/cuol_wordle/get_length",
+        `/cuol_wordle/get_length`,
         {
           headers: {
             Authorization: "Bearer " + token,

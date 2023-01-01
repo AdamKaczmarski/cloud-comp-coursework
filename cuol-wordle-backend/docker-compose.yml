@@ -1,11 +1,15 @@
 services:
   web: 
     build: ./cuol_wordle_django
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver --noreload 0.0.0.0:8000
     ports: 
       - '8000:8000'
     environment:
-      DATABASE_URL: db
+      DB_DB: cuoldle
+      DB_HOST: db
+      DB_USER: backend 
+      DB_PASS: test
+      DB_PORT: '5432'
 #Using containerized version of Postgres for local development for now.
 #We'll using RDS Postgres later
 #To start the container run

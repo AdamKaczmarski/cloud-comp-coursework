@@ -9,10 +9,11 @@ const Stats = (props) => {
   const [userStats, setUserStats] = useState({});
   const [globalStats, setGlobalStats] = useState({});
   const fetchUserStats = useCallback(async () => {
+        const url = process.env.REACT_APP_SERVER_URL;
     try {
       const response = await axios({
         method: "GET",
-        url: "http://localhost:8000/cuol_wordle/user_stats",
+        url: `/cuol_wordle/user_stats`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -25,10 +26,11 @@ const Stats = (props) => {
     }
   }, [token]);
   const fetchGlobalStats = useCallback(async () => {
+        const url = process.env.REACT_APP_SERVER_URL;
     try {
       const response = await axios({
         method: "GET",
-        url: "http://localhost:8000/cuol_wordle/global_stats",
+        url: `/cuol_wordle/global_stats`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

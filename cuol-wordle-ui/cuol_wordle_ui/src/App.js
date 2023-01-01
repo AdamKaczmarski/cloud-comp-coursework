@@ -45,9 +45,6 @@ function App() {
       ) : (
         <p>Please log in</p>
       )}
-      <h1>READ COOKIE IF WON THEN DISPLAY CONGRATS</h1>
-        <h1>AND SECURE THE BACKEND T SOMEHOW MAYBE FROM DELETING THE COOKIE AND PLAYING AGAIN CHECK THE LAST PLAUYED</h1>
-        <h1>REGISTRATION</h1>
       <Footer />
     </Container>
   );

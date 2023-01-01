@@ -18,7 +18,8 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+#    path('admin/', admin.site.urls),
     path('cuol_wordle/', include('cuol_wordle_api.urls')),
-    path('auth/', include('auth_wordle.urls'))
+    path('auth/', include('auth_wordle.urls')),
+    path('', include('cuol_wordle_frontend.urls'))
 ]

@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setGuesses } from "../store/guessesReducer";
+import { setGuesses} from "../store/guessesReducer";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -34,10 +34,11 @@ useEffect(()=>{
         //HERE WE CHECK WITH THE SERVER WHETHER THE GUESS IS CORRECT
         // WE SAVE THE RESPONSE FROM THE SERVER IN THE REDUX STORE
         const userGuess = ev.target.value.toUpperCase();
+        const url = process.env.REACT_APP_SERVER_URL;
         try {
           const response = await axios({
             method: "POST",
-            url: "http://localhost:8000/cuol_wordle/check_chosen",
+            url: `/cuol_wordle/check_chosen`,
             data: { chosen_word: userGuess },
             headers: {
               Authorization: `Bearer ${token}`,
@@ -77,9 +78,11 @@ useEffect(()=>{
               />
             </Form.Group>
           </Form>
-        ) : (
-          <p>CONGRATS!!</p>
-        )}
+        ) : null}{isWin?(
+            
+          <h3 className="text-center">CONGRATS!!</h3>
+        ):null}
+      {guessesDoneLength === chosenLength && !isWin ? <h3 className="text-center">That's a lose, try again tomorrow!</h3>:null}
       </Col>
     </Row>
   );

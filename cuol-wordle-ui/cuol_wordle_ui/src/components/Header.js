@@ -26,7 +26,7 @@ const Header = () => {
     <>
     <Navbar bg="light" variant="light" expand="lg" className="p-0 my-3">
       <Container>
-        <Navbar.Brand href="#home" style={{color:"white"}}>Navbar with text</Navbar.Brand>
+        <Navbar.Brand href=".">IN3046 Group 8 - Cloud Wordle</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Nav.Link className="mx-3" onClick={showStatsHandler}>Stats</Nav.Link>
