@@ -13,8 +13,8 @@ import google.cloud.logging
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-client = google.cloud.logging.Client()
-client.setup_logging()
+#client = google.cloud.logging.Client()
+#client.setup_logging()
 
 
 # [START cloudrun_django_secret_config]
@@ -51,7 +51,7 @@ else:
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+#DEBUG = True
 
 #ALLOWED_HOSTS = []
 # [START cloudrun_django_csrf]
@@ -124,6 +124,18 @@ WSGI_APPLICATION = 'cuol_wordle_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#local
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'cuoldle',
+#        'USER': 'backend',
+#        'PASSWORD': 'test',
+#        'HOST': 'localhost',
+#        'PORT': 5432 
+#    }
+#}
+#Container
 #DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql',
@@ -134,14 +146,17 @@ WSGI_APPLICATION = 'cuol_wordle_django.wsgi.application'
 #        'PORT': os.environ.get('DB_PORT')
 #    }
 #}
+#gcp-prod
 DATABASES = {"default": env.db()}
 # If the flag as been set, configure to use proxy
+#gcp -local proxy
 if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
     DATABASES["default"]["HOST"] = "127.0.0.1"
     DATABASES["default"]["PORT"] = 5432
-    DATABASES["default"]["USER"] = 'user'
-    DATABASES["default"]["NAME"] = 'name'
-    DATABASES["default"]["PASSWORD"] = 'test'
+    DATABASES["default"]["USER"] = ''
+    DATABASES["default"]["NAME"] = ''
+    DATABASES["default"]["PASSWORD"] = ''
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

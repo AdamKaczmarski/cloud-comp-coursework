@@ -82,8 +82,9 @@ def check_chosen(request):
     response={}
     if word==winner_word:
         response={"decision":True}
-        if userstats.last_won_date != today:
+        if userstats.last_won_date != today or userstats.last_won_date is None:
             userstats.games_won+=1
+            userstats.last_won_date = today 
     else:
         response={"decision":False}
     response["word"] = word_to_dict(winner_word,word,[])
@@ -104,7 +105,6 @@ def user_stats(request):
         return HttpResponse(json.dumps(response))
     else:
         userstats = UserStats.objects.get(user_id = user)
-        print(userstats)
         #I forgot how to serialize those
         response = {"games_played":userstats.games_played,"games_won":userstats.games_won,"total_guesses":userstats.total_guesses }
         return HttpResponse(json.dumps(response))
@@ -113,7 +113,6 @@ def user_stats(request):
 @permission_classes([IsAuthenticated])
 def global_stats(request):
     today = datetime.now().date()
-    print(f'today is {today}')
     #total games plaead
     total_games = UserStats.objects.aggregate(Sum('games_played')).get('games_played__sum')   
     #total games won 

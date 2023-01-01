@@ -19,7 +19,7 @@ class UserStats(models.Model):
     total_guesses = models.IntegerField(default=0)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     last_played_date = models.DateField(auto_now=True)
-    last_won_date = models.DateField(auto_now=True)
+    last_won_date = models.DateField(auto_now=False, null=True)
 
 
 class GuessDistribution(models.Model):
