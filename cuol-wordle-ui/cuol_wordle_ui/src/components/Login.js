@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import { useDispatch } from "react-redux";
 import {setToken} from "../store/authReducer";
+import {setEmail} from "../store/guessesReducer.js"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
@@ -24,12 +25,13 @@ const Login = (props) =>{
     try {
       const response = await axios({
         method: "POST",
-        //url: `${url}/auth/login/`,
-        url: `/auth/login/`,
+        url: `${url}/auth/login/`,
+          // url: `/auth/login/`,
         data: loginData,
       });
       if (response.status === 200) {
         dispatch(setToken(response.data.access))
+          dispatch(setEmail(loginData.email))
         props.onHide();
       }
     } catch (err) {

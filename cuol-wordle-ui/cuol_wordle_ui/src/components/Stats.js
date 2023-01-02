@@ -13,7 +13,7 @@ const Stats = (props) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/cuol_wordle/user_stats`,
+        url: `${url}/cuol_wordle/user_stats`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,7 +30,7 @@ const Stats = (props) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `/cuol_wordle/global_stats`,
+        url: `${url}/cuol_wordle/global_stats`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,7 +52,7 @@ const Stats = (props) => {
         <Modal.Title>Statistics</Modal.Title>
       </Modal.Header>
       <Modal.Body className=" mx-3">
-        <h3>User</h3>
+        <h3>Yours</h3>
         <Row>
           {userStats
             ? Object.keys(userStats).map((key, idx) => {
@@ -69,7 +69,7 @@ const Stats = (props) => {
           {userStats ? (
             <Row>
               <Col>Winrate</Col>
-              <Col>{(userStats.games_won / userStats.games_played) * 100}%</Col>
+              <Col>{((userStats.games_won / userStats.games_played) * 100).toFixed(2) || 0}%</Col>
             </Row>
           ) : null}
         </Row>
@@ -92,11 +92,11 @@ const Stats = (props) => {
             <>
             <Row>
               <Col>Total Winrate</Col>
-              <Col>{(globalStats.total_won / globalStats.total_games)*100}%</Col>
+              <Col>{((globalStats.total_won / globalStats.total_games)*100).toFixed(2) || 0}%</Col>
             </Row>
             <Row>
               <Col><b> Today's Winrate</b></Col>
-              <Col><b>{(globalStats.today_won / globalStats.today_played) * 100}%</b></Col>
+              <Col><b>{((globalStats.today_won / globalStats.today_played) * 100).toFixed(2) || 0}%</b></Col>
             </Row>
             </>
           ) : null}

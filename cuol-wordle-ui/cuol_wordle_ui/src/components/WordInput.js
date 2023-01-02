@@ -9,6 +9,7 @@ import Row from "react-bootstrap/Row";
 const WordInput = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+    const email = useSelector((state)=>state.guesses.email)
   const [isWin, setIsWin] = useState(false);
   const chosenLength = useSelector((state) => state.chosenWord.chosenLength);
   const guessesDoneLength = useSelector(
@@ -16,11 +17,13 @@ const WordInput = () => {
   );
 useEffect(()=>{
     //I love JS
-    const winDateCookie = document.cookie.split(';').filter(c=>c.split('=')[0]==="cuolWordleWin").shift()
+    const winDateCookie = document.cookie.split(';').filter(c=>c.trim().split('=')[0]==="cuolWordleWin").shift()
+    const winEmailCookie = document.cookie.split(';').filter(c=>c.trim().split('=')[0]==="cuolWordleWinEmail").shift()
     if (winDateCookie){
-        const cookieDate = new Date(+winDateCookie.split('=')[1]);
+        const cookieEmail = winEmailCookie.trim().split('=')[1]
+        const cookieDate = new Date(+winDateCookie.trim().split('=')[1]);
         const todayDate = new Date()
-        if (cookieDate.setHours(0,0,0,0)===todayDate.setHours(0,0,0,0)){
+        if (cookieDate.setHours(0,0,0,0)===todayDate.setHours(0,0,0,0) && cookieEmail===email){
             setIsWin(true)
         }
     }
@@ -38,7 +41,7 @@ useEffect(()=>{
         try {
           const response = await axios({
             method: "POST",
-            url: `/cuol_wordle/check_chosen`,
+            url: `${url}/cuol_wordle/check_chosen`,
             data: { chosen_word: userGuess },
             headers: {
               Authorization: `Bearer ${token}`,
@@ -49,6 +52,7 @@ useEffect(()=>{
           }
           if (response.data.decision) {
             document.cookie = `cuolWordleWin=${new Date().getTime()}`
+            document.cookie = `cuolWordleWinEmail=${email}`
             setIsWin(true);
 
           }

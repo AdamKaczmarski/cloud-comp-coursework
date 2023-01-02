@@ -12,26 +12,6 @@ from django.db.models import Sum, Count
 
 from rest_framework.permissions import IsAuthenticated
 
-# Generic for testing
-
-
-class WordView(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    model = Word
-    queryset = Word.objects.all()
-    serializer_class = WordSerializer
-
-
-class UserStatsView(generics.ListAPIView):
-    queryset = UserStats.objects.all()
-    serializer_class = UserStatsSerializer
-
-
-class GuessDistributionView(generics.ListAPIView):
-    queryset = GuessDistribution.objects.all()
-    serializer_class = GuessDistributionSerializer
-
-
 def get_value(request):
     return request.data['value']
 

@@ -51,9 +51,8 @@ else:
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+DEBUG = True
 
-#ALLOWED_HOSTS = []
 # [START cloudrun_django_csrf]
 # SECURITY WARNING: It's recommended that you use this when
 # running in production. The URL will be known once you first deploy
@@ -66,8 +65,9 @@ if CLOUDRUN_SERVICE_URL:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 else:
     ALLOWED_HOSTS = ["*"]
+    CORS_ALLOWED_ORIGINS = [
+            'http://localhost:3000']
 # [END cloudrun_django_csrf]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,16 +125,16 @@ WSGI_APPLICATION = 'cuol_wordle_django.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 #local
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'cuoldle',
-#        'USER': 'backend',
-#        'PASSWORD': 'test',
-#        'HOST': 'localhost',
-#        'PORT': 5432 
-#    }
-#}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cuoldle',
+        'USER': 'backend',
+        'PASSWORD': 'test',
+        'HOST': 'localhost',
+        'PORT': 5432 
+    }
+}
 #Container
 #DATABASES = {
 #    'default': {
@@ -147,15 +147,15 @@ WSGI_APPLICATION = 'cuol_wordle_django.wsgi.application'
 #    }
 #}
 #gcp-prod
-DATABASES = {"default": env.db()}
+#DATABASES = {"default": env.db()}
 # If the flag as been set, configure to use proxy
 #gcp -local proxy
-if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
-    DATABASES["default"]["HOST"] = "127.0.0.1"
-    DATABASES["default"]["PORT"] = 5432
-    DATABASES["default"]["USER"] = ''
-    DATABASES["default"]["NAME"] = ''
-    DATABASES["default"]["PASSWORD"] = ''
+#if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+#    DATABASES["default"]["HOST"] = "127.0.0.1"
+#    DATABASES["default"]["PORT"] = 5432
+#    DATABASES["default"]["USER"] = ''
+#    DATABASES["default"]["NAME"] = ''
+#    DATABASES["default"]["PASSWORD"] = ''
 
 
 # Password validation
@@ -224,6 +224,3 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
   }
-
-
-
