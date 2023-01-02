@@ -17,7 +17,7 @@ This directory contains *(link files are the most important ones to look at)*:
 - Installed PostgreSQL or exposed running PostgreSQL container
 - Have python 3.10 installed
 
-1. correct the DATABASES variable in [settings](cuol_wordle_django/setings.py) accordigly to your setup
+1. Correct the DATABASES variable in [settings](cuol_wordle_django/setings.py) accordigly to your setup
 Example:
 ```
 DATABASES = {
