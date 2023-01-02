@@ -18,14 +18,14 @@
 
 ```mermaid
 graph TB
-    A[Local Machine] --> B(Cloud Build)
-    B --> C(Container Registry)
-    B --> D(Cloud Storage Bucket)
-    C --> E(Cloud Run)
-    D --> E
-    E <--> F[(CloudSQL)]
-    G(Secret Manager) --> E
-    E <--> H(Users)
+    A[Local Machine] -->|Build| B(Cloud Build)
+    B -->|Push container image| C(Container Registry)
+    B -->|Store static files| D(Cloud Storage Bucket)
+    C -->|Run image| E(Cloud Run)
+    D -->|Get static files| E
+    E <-->|DB Communication| F[(CloudSQL)]
+    G(Secret Manager) -->|Get secrets| E
+    E <-->|Send requests| H(Users)
 ```
 
 
@@ -34,8 +34,3 @@ graph TB
 - Adam Kaczmarski
 - Ayesha Kayani
 - Vijay Kesireddy
-
-```mermaid
-graph LR
-    fa:fa-check-->fa:fa-coffee
-```
