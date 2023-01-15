@@ -53,7 +53,6 @@ def check_chosen(request):
     word = request.data['chosen_word']
 
     winner_word: str = Word.objects.get(is_chosen=True).value
-   # winner_word="house" # LATER ON it'll Pulled from the db
 
     remove_digits = str.maketrans('', '', digits)
     word = word.translate(remove_digits).lower().strip()
